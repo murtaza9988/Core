@@ -14,8 +14,8 @@ load_dotenv()
 
 
 # Access GitHub API settings
-BASE_GITHUB_API_URL = 'https://api.github.com/repos/murtaza9988/{repository}/contents/{path_to_folder_or_file}'
-GITHUB_TOKEN = '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'
+BASE_GITHUB_API_URL = 'https://github.com/murtaza9988/Core/tree/main/data/'
+GITHUB_TOKEN = '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'
 
 def download_file_from_github(file_url, save_path):
     headers = {
@@ -33,14 +33,14 @@ def upload_excel(request, folder_name=None, file_name=None):
     form = ExcelUploadForm()  # Initialize the form
     if file_name:
         file_url = f"{BASE_GITHUB_API_URL}/{folder_name}/{file_name}"
-        local_save_path = os.path.join('/home/samar/Documents/UP-WORK/Chris#07/DataLeadsProject/core/data', file_name)
+        local_save_path = os.path.join('/home/mehboob/coda/task/cores/data', file_name)
         try:
             download_file_from_github(file_url, local_save_path)
             print(f"File downloaded and saved to: {local_save_path}")
         except Exception as e:
             print(f"Error downloading file: {e}")
         pass_file_name = f"data/{file_name}"
-        process_excel_file.delay(pass_file_name)
+        process_excel_file(pass_file_name)
         return redirect('dashboard')  # Redirect after processing
 
     github_url = BASE_GITHUB_API_URL
@@ -59,8 +59,7 @@ def upload_excel(request, folder_name=None, file_name=None):
 
 def dashboard(request):
     data = DynamicExcelData.objects.all().values_list('data', flat=True)
-    data = [json.loads(item) for item in data] 
-    print(data)# Convert JSON string to Python dict
+    data = [json.loads(item) for item in data]  # Convert JSON string to Python dict
     return render(request, 'app/dashboard.html', {'data': data})
 
 
