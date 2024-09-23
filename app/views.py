@@ -15,7 +15,7 @@ load_dotenv()
 
 # Access GitHub API settings
 BASE_GITHUB_API_URL = 'https://github.com/murtaza9988/Core/tree/main/data/'
-GITHUB_TOKEN = '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'
+GITHUB_TOKEN = ''
 
 def download_file_from_github(file_url, save_path):
     headers = {
